@@ -40,7 +40,7 @@ const Index = () => {
       <header
         className="absolute top-6 left-6 z-20"
         style={{
-          fontFamily: "'Segoe Print', 'Bradley Hand', 'Comic Neue', cursive",
+          fontFamily: "'Caveat', cursive",
         }}
       >
         <div
@@ -85,12 +85,12 @@ const Index = () => {
           <div className="relative z-10 text-center">
             <span
               className="block tracking-wide text-purple-300/70"
-              style={{ fontSize: "0.7rem" }}
+              style={{ fontSize: "0.9rem" }}
             >
               daily dose of
             </span>
             <span
-              className="block text-2xl font-bold text-purple-100 -mt-0.5"
+              className="block text-3xl font-bold text-purple-100 -mt-0.5"
               style={{
                 letterSpacing: "0.02em",
               }}

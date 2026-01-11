@@ -41,9 +41,9 @@ const QuoteDisplay = ({ quote, isAnimating }: QuoteDisplayProps) => {
   return (
     <div className="relative min-h-[180px] flex items-center justify-center px-6 md:px-16">
       <p
-        className="text-2xl sm:text-2xl md:text-3xl lg:text-4xl text-center max-w-4xl"
+        className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-center max-w-4xl"
         style={{
-          fontFamily: "'Segoe Print', 'Bradley Hand', 'Comic Neue', cursive",
+          fontFamily: "'Caveat', cursive",
           color: "#e8dff5",
           textShadow: "0 2px 10px rgba(0,0,0,0.3)",
           lineHeight: "1.6",

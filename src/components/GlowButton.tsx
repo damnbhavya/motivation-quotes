@@ -36,7 +36,7 @@ const GlowButton = ({ onClick, disabled, children }: GlowButtonProps) => {
         "border-none outline-none",
       )}
       style={{
-        fontFamily: "'Segoe Print', 'Bradley Hand', 'Comic Neue', cursive",
+        fontFamily: "'Caveat', cursive",
         transform: isPressed ? "scale(0.96)" : isHovered ? "scale(1.02)" : "scale(1)",
         WebkitTapHighlightColor: "transparent",
       }}
@@ -79,7 +79,7 @@ const GlowButton = ({ onClick, disabled, children }: GlowButtonProps) => {
         className="relative z-10 flex items-center gap-2 font-semibold tracking-wide"
         style={{
           color: isHovered ? "#e8dff5" : "#c9b8e0",
-          fontSize: "1.15rem",
+          fontSize: "1.4rem",
           transition: "color 0.2s ease",
         }}
       >
