@@ -68,9 +68,14 @@ const AnimatedBackground = () => {
       "smiley", "lightning", "cloud", "diamond", "squiggle", "burst"
     ];
 
-    // Create doodles
+    // Create doodles - adjust size and count for mobile screens
     const doodles: Doodle[] = [];
-    const numDoodles = 35;
+    const isMobile = canvas.width < 768;
+    const numDoodles = isMobile ? 20 : 35;
+    const minSize = isMobile ? 8 : 15;
+    const sizeRange = isMobile ? 18 : 35;
+    const floatAmpMin = isMobile ? 5 : 10;
+    const floatAmpRange = isMobile ? 10 : 20;
 
     for (let i = 0; i < numDoodles; i++) {
       const x = Math.random() * canvas.width;
@@ -80,14 +85,14 @@ const AnimatedBackground = () => {
         y,
         baseX: x,
         baseY: y,
-        size: 15 + Math.random() * 35,
+        size: minSize + Math.random() * sizeRange,
         rotation: Math.random() * Math.PI * 2,
         rotationSpeed: (Math.random() - 0.5) * 0.02,
         type: doodleTypes[Math.floor(Math.random() * doodleTypes.length)],
         color: colors[Math.floor(Math.random() * colors.length)],
         floatPhase: Math.random() * Math.PI * 2,
         floatSpeed: 0.3 + Math.random() * 0.5,
-        floatAmplitude: 10 + Math.random() * 20,
+        floatAmplitude: floatAmpMin + Math.random() * floatAmpRange,
         opacity: 0.15 + Math.random() * 0.25,
       });
     }
