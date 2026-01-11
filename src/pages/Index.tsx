@@ -102,16 +102,18 @@ const Index = () => {
       </header>
 
       {/* Main content */}
-      <main className="relative z-10 flex flex-col items-center justify-center gap-12 px-4 py-16 w-full max-w-5xl">
+      <main className="relative z-10 flex flex-col items-center justify-center gap-12 md:gap-12 px-4 py-16 w-full max-w-5xl">
 
         {/* Quote display */}
         <QuoteDisplay quote={currentQuote} isAnimating={isAnimating} />
 
         {/* Action button */}
-        <GlowButton onClick={handleNewQuote} disabled={isLoading}>
-          <Sparkles className="w-5 h-5" />
-          Inspire me
-        </GlowButton>
+        <div className="mt-4 md:mt-0">
+          <GlowButton onClick={handleNewQuote} disabled={isLoading}>
+            <Sparkles className="w-5 h-5" />
+            Inspire me
+          </GlowButton>
+        </div>
       </main>
     </div>
   );
