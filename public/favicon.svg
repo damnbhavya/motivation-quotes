@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#a78bda;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#c44dff;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <!-- Background circle -->
+  <circle cx="50" cy="50" r="45" fill="#1a1a2e"/>
+  <!-- Star burst -->
+  <path d="M50 10 L55 35 L80 30 L60 50 L80 70 L55 65 L50 90 L45 65 L20 70 L40 50 L20 30 L45 35 Z"
+        fill="url(#grad)"
+        stroke="#e8dff5"
+        stroke-width="2"/>
+  <!-- Center sparkle -->
+  <circle cx="50" cy="50" r="8" fill="#ffe66d"/>
+  <circle cx="50" cy="50" r="4" fill="#fff"/>
+</svg>
