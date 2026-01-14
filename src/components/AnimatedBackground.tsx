@@ -1,13 +1,10 @@
 import { useEffect, useRef } from "react";
-<<<<<<< HEAD
 import {
   DOODLE_COLORS,
   DOODLE_TYPES,
   DoodleType,
   drawDoodleShape,
 } from "@/lib/doodleUtils";
-=======
->>>>>>> bb85232e51518b754e77f798bfd784280e3815f9
 
 interface Doodle {
   x: number;
@@ -17,11 +14,7 @@ interface Doodle {
   size: number;
   rotation: number;
   rotationSpeed: number;
-<<<<<<< HEAD
   type: DoodleType;
-=======
-  type: string;
->>>>>>> bb85232e51518b754e77f798bfd784280e3815f9
   color: string;
   floatPhase: number;
   floatSpeed: number;
@@ -65,25 +58,6 @@ const AnimatedBackground = () => {
     window.addEventListener("mousemove", handleMouseMove);
     window.addEventListener("mouseleave", handleMouseLeave);
 
-<<<<<<< HEAD
-=======
-    // Comic colors palette
-    const colors = [
-      "#FF6B9D", // Pink
-      "#C44DFF", // Purple
-      "#4DFFFF", // Cyan
-      "#FFE66D", // Yellow
-      "#FF8B4D", // Orange
-      "#7BFF4D", // Green
-    ];
-
-    // Doodle types
-    const doodleTypes = [
-      "star", "heart", "spiral", "zigzag", "circle", "triangle",
-      "smiley", "lightning", "cloud", "diamond", "squiggle", "burst"
-    ];
-
->>>>>>> bb85232e51518b754e77f798bfd784280e3815f9
     // Create doodles - adjust size and count for mobile screens
     const doodles: Doodle[] = [];
     const isMobile = canvas.width < 768;
@@ -104,13 +78,8 @@ const AnimatedBackground = () => {
         size: minSize + Math.random() * sizeRange,
         rotation: Math.random() * Math.PI * 2,
         rotationSpeed: (Math.random() - 0.5) * 0.02,
-<<<<<<< HEAD
         type: DOODLE_TYPES[Math.floor(Math.random() * DOODLE_TYPES.length)],
         color: DOODLE_COLORS[Math.floor(Math.random() * DOODLE_COLORS.length)],
-=======
-        type: doodleTypes[Math.floor(Math.random() * doodleTypes.length)],
-        color: colors[Math.floor(Math.random() * colors.length)],
->>>>>>> bb85232e51518b754e77f798bfd784280e3815f9
         floatPhase: Math.random() * Math.PI * 2,
         floatSpeed: 0.3 + Math.random() * 0.5,
         floatAmplitude: floatAmpMin + Math.random() * floatAmpRange,
@@ -118,122 +87,6 @@ const AnimatedBackground = () => {
       });
     }
 
-<<<<<<< HEAD
-=======
-    // Drawing functions for each doodle type
-    const drawStar = (ctx: CanvasRenderingContext2D, size: number) => {
-      const spikes = 5;
-      const outerRadius = size;
-      const innerRadius = size * 0.5;
-      ctx.beginPath();
-      for (let i = 0; i < spikes * 2; i++) {
-        const radius = i % 2 === 0 ? outerRadius : innerRadius;
-        const angle = (i * Math.PI) / spikes - Math.PI / 2;
-        const x = Math.cos(angle) * radius;
-        const y = Math.sin(angle) * radius;
-        i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
-      }
-      ctx.closePath();
-    };
-
-    const drawHeart = (ctx: CanvasRenderingContext2D, size: number) => {
-      ctx.beginPath();
-      ctx.moveTo(0, size * 0.3);
-      ctx.bezierCurveTo(-size, -size * 0.3, -size * 0.5, -size, 0, -size * 0.5);
-      ctx.bezierCurveTo(size * 0.5, -size, size, -size * 0.3, 0, size * 0.3);
-      ctx.closePath();
-    };
-
-    const drawSpiral = (ctx: CanvasRenderingContext2D, size: number) => {
-      ctx.beginPath();
-      for (let i = 0; i < 720; i += 15) {
-        const angle = (i * Math.PI) / 180;
-        const radius = (i / 720) * size;
-        const x = Math.cos(angle) * radius;
-        const y = Math.sin(angle) * radius;
-        i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
-      }
-    };
-
-    const drawZigzag = (ctx: CanvasRenderingContext2D, size: number) => {
-      ctx.beginPath();
-      ctx.moveTo(-size, 0);
-      for (let i = 0; i < 5; i++) {
-        const x = -size + (i + 0.5) * (size * 2) / 5;
-        const y = (i % 2 === 0 ? -1 : 1) * size * 0.4;
-        ctx.lineTo(x, y);
-      }
-      ctx.lineTo(size, 0);
-    };
-
-    const drawSmiley = (ctx: CanvasRenderingContext2D, size: number) => {
-      // Face
-      ctx.beginPath();
-      ctx.arc(0, 0, size, 0, Math.PI * 2);
-      ctx.stroke();
-      // Eyes
-      ctx.beginPath();
-      ctx.arc(-size * 0.35, -size * 0.2, size * 0.12, 0, Math.PI * 2);
-      ctx.arc(size * 0.35, -size * 0.2, size * 0.12, 0, Math.PI * 2);
-      ctx.fill();
-      // Smile
-      ctx.beginPath();
-      ctx.arc(0, size * 0.1, size * 0.5, 0.2, Math.PI - 0.2);
-      ctx.stroke();
-    };
-
-    const drawLightning = (ctx: CanvasRenderingContext2D, size: number) => {
-      ctx.beginPath();
-      ctx.moveTo(size * 0.2, -size);
-      ctx.lineTo(-size * 0.3, -size * 0.1);
-      ctx.lineTo(size * 0.1, -size * 0.1);
-      ctx.lineTo(-size * 0.2, size);
-      ctx.lineTo(size * 0.3, size * 0.1);
-      ctx.lineTo(-size * 0.1, size * 0.1);
-      ctx.closePath();
-    };
-
-    const drawCloud = (ctx: CanvasRenderingContext2D, size: number) => {
-      ctx.beginPath();
-      ctx.arc(-size * 0.5, 0, size * 0.4, 0, Math.PI * 2);
-      ctx.arc(0, -size * 0.2, size * 0.5, 0, Math.PI * 2);
-      ctx.arc(size * 0.5, 0, size * 0.4, 0, Math.PI * 2);
-      ctx.arc(0, size * 0.2, size * 0.45, 0, Math.PI * 2);
-    };
-
-    const drawDiamond = (ctx: CanvasRenderingContext2D, size: number) => {
-      ctx.beginPath();
-      ctx.moveTo(0, -size);
-      ctx.lineTo(size * 0.7, 0);
-      ctx.lineTo(0, size);
-      ctx.lineTo(-size * 0.7, 0);
-      ctx.closePath();
-    };
-
-    const drawSquiggle = (ctx: CanvasRenderingContext2D, size: number) => {
-      ctx.beginPath();
-      ctx.moveTo(-size, 0);
-      for (let i = 0; i <= 10; i++) {
-        const x = -size + (i / 10) * size * 2;
-        const y = Math.sin(i * 1.2) * size * 0.4;
-        ctx.lineTo(x, y);
-      }
-    };
-
-    const drawBurst = (ctx: CanvasRenderingContext2D, size: number) => {
-      const rays = 8;
-      ctx.beginPath();
-      for (let i = 0; i < rays * 2; i++) {
-        const radius = i % 2 === 0 ? size : size * 0.4;
-        const angle = (i * Math.PI) / rays;
-        const x = Math.cos(angle) * radius;
-        const y = Math.sin(angle) * radius;
-        i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
-      }
-      ctx.closePath();
-    };
-
->>>>>>> bb85232e51518b754e77f798bfd784280e3815f9
     const drawDoodle = (ctx: CanvasRenderingContext2D, doodle: Doodle) => {
       ctx.save();
       ctx.translate(doodle.x, doodle.y);
@@ -245,66 +98,9 @@ const AnimatedBackground = () => {
       ctx.lineCap = "round";
       ctx.lineJoin = "round";
 
-<<<<<<< HEAD
       const action = drawDoodleShape(ctx, doodle.type, doodle.size);
       if (action === "stroke") ctx.stroke();
       else if (action === "fill") ctx.fill();
-=======
-      switch (doodle.type) {
-        case "star":
-          drawStar(ctx, doodle.size);
-          ctx.stroke();
-          break;
-        case "heart":
-          drawHeart(ctx, doodle.size);
-          ctx.stroke();
-          break;
-        case "spiral":
-          drawSpiral(ctx, doodle.size);
-          ctx.stroke();
-          break;
-        case "zigzag":
-          drawZigzag(ctx, doodle.size);
-          ctx.stroke();
-          break;
-        case "circle":
-          ctx.beginPath();
-          ctx.arc(0, 0, doodle.size, 0, Math.PI * 2);
-          ctx.stroke();
-          break;
-        case "triangle":
-          ctx.beginPath();
-          ctx.moveTo(0, -doodle.size);
-          ctx.lineTo(doodle.size * 0.866, doodle.size * 0.5);
-          ctx.lineTo(-doodle.size * 0.866, doodle.size * 0.5);
-          ctx.closePath();
-          ctx.stroke();
-          break;
-        case "smiley":
-          drawSmiley(ctx, doodle.size);
-          break;
-        case "lightning":
-          drawLightning(ctx, doodle.size);
-          ctx.fill();
-          break;
-        case "cloud":
-          drawCloud(ctx, doodle.size);
-          ctx.stroke();
-          break;
-        case "diamond":
-          drawDiamond(ctx, doodle.size);
-          ctx.stroke();
-          break;
-        case "squiggle":
-          drawSquiggle(ctx, doodle.size);
-          ctx.stroke();
-          break;
-        case "burst":
-          drawBurst(ctx, doodle.size);
-          ctx.stroke();
-          break;
-      }
->>>>>>> bb85232e51518b754e77f798bfd784280e3815f9
 
       ctx.restore();
     };
