@@ -1,8 +1,13 @@
+<<<<<<< HEAD
 import { useEffect, useCallback, useState, useRef } from "react";
+=======
+import { useEffect, useCallback } from "react";
+>>>>>>> bb85232e51518b754e77f798bfd784280e3815f9
 import { Sparkles } from "lucide-react";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import QuoteDisplay from "@/components/QuoteDisplay";
 import GlowButton from "@/components/GlowButton";
+<<<<<<< HEAD
 import ShareButton from "@/components/ShareButton";
 import ShareModal from "@/components/ShareModal";
 import useQuotes from "@/hooks/useQuotes";
@@ -71,11 +76,28 @@ const Index = () => {
     getNewQuote();
     setHasGeneratedQuote(true);
   }, [playSound, getNewQuote, isLoading, isOnCooldown]);
+=======
+import useQuotes from "@/hooks/useQuotes";
+import useQuoteSound from "@/hooks/useQuoteSound";
+
+const Index = () => {
+  const { currentQuote, isLoading, isAnimating, getNewQuote } = useQuotes();
+  const { playSound } = useQuoteSound();
+
+  const handleNewQuote = useCallback(() => {
+    playSound();
+    getNewQuote();
+  }, [playSound, getNewQuote]);
+>>>>>>> bb85232e51518b754e77f798bfd784280e3815f9
 
   // Keyboard support - Enter key
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+<<<<<<< HEAD
       if (e.key === "Enter" && !isLoading && !isOnCooldown) {
+=======
+      if (e.key === "Enter" && !isLoading) {
+>>>>>>> bb85232e51518b754e77f798bfd784280e3815f9
         e.preventDefault();
         handleNewQuote();
       }
@@ -83,7 +105,11 @@ const Index = () => {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
+<<<<<<< HEAD
   }, [handleNewQuote, isLoading, isOnCooldown]);
+=======
+  }, [handleNewQuote, isLoading]);
+>>>>>>> bb85232e51518b754e77f798bfd784280e3815f9
 
   return (
     <div className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
@@ -93,15 +119,27 @@ const Index = () => {
       {/* Grain overlay for cinematic feel */}
       <div className="grain-overlay" />
 
+<<<<<<< HEAD
       {/* Sticker-style header - centered on mobile, top-left on desktop */}
       <header
         className="absolute top-4 left-1/2 -translate-x-1/2 md:left-6 md:translate-x-0 z-20 scale-75 md:scale-100 origin-top"
+=======
+      {/* Sticker-style header in top left */}
+      <header
+        className="absolute top-6 left-6 z-20"
+>>>>>>> bb85232e51518b754e77f798bfd784280e3815f9
         style={{
           fontFamily: "'Caveat', cursive",
         }}
       >
         <div
           className="relative px-6 py-4"
+<<<<<<< HEAD
+=======
+          style={{
+            transform: "rotate(-2deg)",
+          }}
+>>>>>>> bb85232e51518b754e77f798bfd784280e3815f9
         >
           {/* Hand-drawn border SVG */}
           <svg
@@ -136,7 +174,11 @@ const Index = () => {
           </svg>
 
           {/* Title content */}
+<<<<<<< HEAD
           <div className="relative z-10 text-center whitespace-nowrap">
+=======
+          <div className="relative z-10 text-center">
+>>>>>>> bb85232e51518b754e77f798bfd784280e3815f9
             <span
               className="block tracking-wide text-purple-300/70"
               style={{ fontSize: "0.9rem" }}
@@ -163,11 +205,16 @@ const Index = () => {
 
         {/* Action button */}
         <div className="mt-4 md:mt-0">
+<<<<<<< HEAD
           <GlowButton onClick={handleNewQuote} disabled={isLoading || isOnCooldown}>
+=======
+          <GlowButton onClick={handleNewQuote} disabled={isLoading}>
+>>>>>>> bb85232e51518b754e77f798bfd784280e3815f9
             <Sparkles className="w-5 h-5" />
             Inspire me
           </GlowButton>
         </div>
+<<<<<<< HEAD
 
         {/* Cooldown message toast */}
         <div
@@ -205,6 +252,9 @@ const Index = () => {
         onClose={() => setIsShareModalOpen(false)}
         quote={currentQuote}
       />
+=======
+      </main>
+>>>>>>> bb85232e51518b754e77f798bfd784280e3815f9
     </div>
   );
 };
