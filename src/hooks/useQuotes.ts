@@ -156,14 +156,7 @@ const useQuotes = () => {
 
   const prefetchNextQuote = useCallback(async () => {
     const quote = await fetchQuoteFromAPI();
-    // Only cache if not in history
-    if (!isQuoteInHistory(quote)) {
-      prefetchedQuoteRef.current = quote;
-    } else {
-      // Try to get a fresh one
-      const freshQuote = await fetchQuoteFromAPI();
-      prefetchedQuoteRef.current = freshQuote;
-    }
+    prefetchedQuoteRef.current = quote;
   }, [fetchQuoteFromAPI]);
 
   const getNewQuote = useCallback(async () => {
@@ -174,19 +167,30 @@ const useQuotes = () => {
 
     let newQuote: string;
 
-    // Use prefetched quote if available and not in history
-    if (prefetchedQuoteRef.current && !isQuoteInHistory(prefetchedQuoteRef.current)) {
+    // Use prefetched quote if available (it's already validated)
+    if (prefetchedQuoteRef.current) {
       newQuote = prefetchedQuoteRef.current;
       prefetchedQuoteRef.current = null;
-    } else {
-      prefetchedQuoteRef.current = null;
-      newQuote = await fetchQuoteFromAPI();
+
+      // Save to localStorage history
+      saveToHistory(newQuote);
+
+      // Update quote immediately
+      setCurrentQuote(newQuote);
+      setIsLoading(false);
+
+      // Reset animation state after animation completes
+      setTimeout(() => {
+        setIsAnimating(false);
+      }, 250);
+
+      // Prefetch the next quote in background
+      prefetchNextQuote();
+      return;
     }
 
-    // Final fallback check - if still in history, get backup
-    if (isQuoteInHistory(newQuote)) {
-      newQuote = getRandomBackupQuote();
-    }
+    // No prefetched quote available, fetch now (slower path)
+    newQuote = await fetchQuoteFromAPI();
 
     // Save to localStorage history
     saveToHistory(newQuote);

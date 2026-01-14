@@ -133,7 +133,14 @@ const Index = () => {
       <main className="relative z-10 flex flex-col items-center justify-center gap-12 md:gap-12 px-4 py-16 w-full max-w-5xl">
         <QuoteDisplay quote={currentQuote} isAnimating={isAnimating} />
 
-        <div className="mt-4 md:mt-0">
+        <div
+          className="mt-4 md:mt-0 transition-all duration-300"
+          style={{
+            opacity: isLoading || isOnCooldown ? 0 : 1,
+            transform: `scale(${isLoading || isOnCooldown ? 0.95 : 1})`,
+            pointerEvents: isLoading || isOnCooldown ? "none" : "auto",
+          }}
+        >
           <GlowButton onClick={handleNewQuote} disabled={isLoading || isOnCooldown}>
             <Sparkles className="w-5 h-5" />
             Inspire me
@@ -173,6 +180,12 @@ const Index = () => {
         onClose={() => setIsShareModalOpen(false)}
         quote={currentQuote}
       />
+
+      <footer className="fixed bottom-3 left-1/2 -translate-x-1/2 z-30">
+        <p className="text-sm text-white/40" style={{ fontFamily: "'Caveat', cursive" }}>
+          made with ♡ by bhavya
+        </p>
+      </footer>
     </div>
   );
 };
