@@ -1,25 +1,13 @@
-<<<<<<< HEAD
 @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap');
-=======
-@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
->>>>>>> bb85232e51518b754e77f798bfd784280e3815f9
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-<<<<<<< HEAD
-=======
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here.
-All colors MUST be HSL.
-*/
-
->>>>>>> bb85232e51518b754e77f798bfd784280e3815f9
 @layer base {
   :root {
     --background: 240 10% 4%;
     --foreground: 0 0% 98%;
-<<<<<<< HEAD
     --primary: 280 100% 70%;
     --primary-foreground: 240 10% 4%;
     --muted: 240 10% 15%;
@@ -28,108 +16,12 @@ All colors MUST be HSL.
     --radius: 0.75rem;
   }
 
-=======
-
-    --card: 240 10% 6%;
-    --card-foreground: 0 0% 98%;
-
-    --popover: 240 10% 6%;
-    --popover-foreground: 0 0% 98%;
-
-    --primary: 280 100% 70%;
-    --primary-foreground: 240 10% 4%;
-
-    --secondary: 190 100% 50%;
-    --secondary-foreground: 240 10% 4%;
-
-    --muted: 240 10% 15%;
-    --muted-foreground: 240 5% 65%;
-
-    --accent: 330 100% 65%;
-    --accent-foreground: 240 10% 4%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-
-    --border: 240 10% 20%;
-    --input: 240 10% 20%;
-    --ring: 280 100% 70%;
-
-    --radius: 0.75rem;
-
-    /* Custom vibrant colors for the quote app */
-    --neon-purple: 280 100% 70%;
-    --neon-cyan: 190 100% 50%;
-    --neon-pink: 330 100% 65%;
-    --neon-blue: 220 100% 60%;
-
-    --sidebar-background: 240 10% 6%;
-    --sidebar-foreground: 0 0% 98%;
-    --sidebar-primary: 280 100% 70%;
-    --sidebar-primary-foreground: 240 10% 4%;
-    --sidebar-accent: 240 10% 15%;
-    --sidebar-accent-foreground: 0 0% 98%;
-    --sidebar-border: 240 10% 20%;
-    --sidebar-ring: 280 100% 70%;
-  }
-
-  .dark {
-    --background: 240 10% 4%;
-    --foreground: 0 0% 98%;
-
-    --card: 240 10% 6%;
-    --card-foreground: 0 0% 98%;
-
-    --popover: 240 10% 6%;
-    --popover-foreground: 0 0% 98%;
-
-    --primary: 280 100% 70%;
-    --primary-foreground: 240 10% 4%;
-
-    --secondary: 190 100% 50%;
-    --secondary-foreground: 240 10% 4%;
-
-    --muted: 240 10% 15%;
-    --muted-foreground: 240 5% 65%;
-
-    --accent: 330 100% 65%;
-    --accent-foreground: 240 10% 4%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-
-    --border: 240 10% 20%;
-    --input: 240 10% 20%;
-    --ring: 280 100% 70%;
-
-    --neon-purple: 280 100% 70%;
-    --neon-cyan: 190 100% 50%;
-    --neon-pink: 330 100% 65%;
-    --neon-blue: 220 100% 60%;
-
-    --sidebar-background: 240 10% 6%;
-    --sidebar-foreground: 0 0% 98%;
-    --sidebar-primary: 280 100% 70%;
-    --sidebar-primary-foreground: 240 10% 4%;
-    --sidebar-accent: 240 10% 15%;
-    --sidebar-accent-foreground: 0 0% 98%;
-    --sidebar-border: 240 10% 20%;
-    --sidebar-ring: 280 100% 70%;
-  }
-}
-
-@layer base {
->>>>>>> bb85232e51518b754e77f798bfd784280e3815f9
   * {
     @apply border-border;
   }
 
   body {
     @apply bg-background text-foreground antialiased;
-<<<<<<< HEAD
-=======
-    font-family: 'Space Grotesk', system-ui, sans-serif;
->>>>>>> bb85232e51518b754e77f798bfd784280e3815f9
   }
 }
 
