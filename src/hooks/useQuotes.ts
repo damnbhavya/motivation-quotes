@@ -1,5 +1,69 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 
+const STORAGE_KEY = "motivation_quote_history";
+const MAX_HISTORY_SIZE = 20;
+const HISTORY_EXPIRY_DAYS = 7;
+
+interface QuoteHistoryEntry {
+  hash: string;
+  timestamp: number;
+}
+
+// Simple hash function for quotes
+const hashQuote = (quote: string): string => {
+  let hash = 0;
+  for (let i = 0; i < quote.length; i++) {
+    const char = quote.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash = hash & hash;
+  }
+  return hash.toString(36);
+};
+
+// Get quote history from localStorage
+const getQuoteHistory = (): QuoteHistoryEntry[] => {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (!stored) return [];
+
+    const history: QuoteHistoryEntry[] = JSON.parse(stored);
+    const now = Date.now();
+    const expiryMs = HISTORY_EXPIRY_DAYS * 24 * 60 * 60 * 1000;
+
+    // Filter out expired entries
+    return history.filter(entry => now - entry.timestamp < expiryMs);
+  } catch {
+    return [];
+  }
+};
+
+// Save quote to history
+const saveToHistory = (quote: string): void => {
+  try {
+    const history = getQuoteHistory();
+    const hash = hashQuote(quote);
+
+    // Don't add if already exists
+    if (history.some(entry => entry.hash === hash)) return;
+
+    const newHistory = [
+      { hash, timestamp: Date.now() },
+      ...history
+    ].slice(0, MAX_HISTORY_SIZE);
+
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(newHistory));
+  } catch {
+    // Silently fail if localStorage is unavailable
+  }
+};
+
+// Check if quote was recently shown
+const isQuoteInHistory = (quote: string): boolean => {
+  const history = getQuoteHistory();
+  const hash = hashQuote(quote);
+  return history.some(entry => entry.hash === hash);
+};
+
 // High-quality motivational quotes
 const backupQuotes = [
   "The only way to do great work is to love what you do.",
@@ -43,45 +107,63 @@ const useQuotes = () => {
   const [currentQuote, setCurrentQuote] = useState("Press the button or hit Enter to get inspired!");
   const [isLoading, setIsLoading] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
-  const recentQuotesRef = useRef<string[]>([]);
   const prefetchedQuoteRef = useRef<string | null>(null);
 
   const getRandomBackupQuote = useCallback((): string => {
-    const available = backupQuotes.filter(
-      (q) => !recentQuotesRef.current.includes(q)
-    );
+    // Filter out quotes that are in localStorage history
+    const available = backupQuotes.filter(q => !isQuoteInHistory(q));
     const pool = available.length > 0 ? available : backupQuotes;
     return pool[Math.floor(Math.random() * pool.length)];
   }, []);
 
-  const fetchQuoteFromAPI = useCallback(async (): Promise<string> => {
-    try {
-      const response = await fetch("https://api.quotable.io/random?tags=inspirational|motivational|success|wisdom");
-
-      if (!response.ok) throw new Error("API failed");
-
-      const data = await response.json();
-      return data.content;
-    } catch {
-      // Try ZenQuotes as fallback
+  const fetchQuoteFromAPI = useCallback(async (retries = 3): Promise<string> => {
+    for (let attempt = 0; attempt < retries; attempt++) {
       try {
-        const response = await fetch(
-          "https://zenquotes.io/api/random"
-        );
+        const response = await fetch("https://api.quotable.io/random?tags=inspirational|motivational|success|wisdom");
 
-        if (!response.ok) throw new Error("Backup API failed");
+        if (!response.ok) throw new Error("API failed");
 
         const data = await response.json();
-        return data[0].q;
+        const quote = data.content;
+
+        // Check if quote is in history, retry if so
+        if (!isQuoteInHistory(quote)) {
+          return quote;
+        }
       } catch {
-        return getRandomBackupQuote();
+        // Try ZenQuotes as fallback
+        try {
+          const response = await fetch("https://zenquotes.io/api/random");
+
+          if (!response.ok) throw new Error("Backup API failed");
+
+          const data = await response.json();
+          const quote = data[0].q;
+
+          // Check if quote is in history, retry if so
+          if (!isQuoteInHistory(quote)) {
+            return quote;
+          }
+        } catch {
+          // Continue to next attempt or fallback
+        }
       }
     }
+
+    // All retries exhausted, use backup quote
+    return getRandomBackupQuote();
   }, [getRandomBackupQuote]);
 
   const prefetchNextQuote = useCallback(async () => {
     const quote = await fetchQuoteFromAPI();
-    prefetchedQuoteRef.current = quote;
+    // Only cache if not in history
+    if (!isQuoteInHistory(quote)) {
+      prefetchedQuoteRef.current = quote;
+    } else {
+      // Try to get a fresh one
+      const freshQuote = await fetchQuoteFromAPI();
+      prefetchedQuoteRef.current = freshQuote;
+    }
   }, [fetchQuoteFromAPI]);
 
   const getNewQuote = useCallback(async () => {
@@ -92,21 +174,22 @@ const useQuotes = () => {
 
     let newQuote: string;
 
-    // Use prefetched quote if available
-    if (prefetchedQuoteRef.current) {
+    // Use prefetched quote if available and not in history
+    if (prefetchedQuoteRef.current && !isQuoteInHistory(prefetchedQuoteRef.current)) {
       newQuote = prefetchedQuoteRef.current;
       prefetchedQuoteRef.current = null;
     } else {
+      prefetchedQuoteRef.current = null;
       newQuote = await fetchQuoteFromAPI();
     }
 
-    // Ensure we don't repeat recent quotes
-    if (recentQuotesRef.current.includes(newQuote)) {
+    // Final fallback check - if still in history, get backup
+    if (isQuoteInHistory(newQuote)) {
       newQuote = getRandomBackupQuote();
     }
 
-    // Update recent quotes list (keep last 5)
-    recentQuotesRef.current = [newQuote, ...recentQuotesRef.current].slice(0, 5);
+    // Save to localStorage history
+    saveToHistory(newQuote);
 
     // Update quote immediately
     setCurrentQuote(newQuote);
